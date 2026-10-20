@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · MargRakshak AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-body">
+  <div data-sidebar></div>
+  <main class="app-main">
+    <p class="section-kicker text-uppercase text-secondary">College project</p>
+    <h1 class="mb-3">MargRakshak AI</h1>
+    <p class="col-lg-8">Web-based intelligent driver fatigue and distraction detection. A supervisor opens this site, watches a live session, and gets alerts when the driver looks drowsy, yawns, or looks away. Phone detection with YOLO is planned for a later phase.</p>
+
+    <div class="row g-4 mt-2">
+      <div class="col-md-6">
+        <article class="app-card p-4 h-100">
+          <h2 class="h4">Phase 1 — now</h2>
+          <p class="text-secondary mb-0">Frontend screens with dummy data: landing, login, dashboard, alerts, analytics, settings. No camera. No Flask.</p>
+        </article>
+      </div>
+      <div class="col-md-6">
+        <article class="app-card p-4 h-100">
+          <h2 class="h4">Later phases</h2>
+          <p class="text-secondary mb-0">Flask API, SQLite, webcam, MediaPipe landmarks, rule-based EAR/MAR/head-pose, then YOLO for phone use.</p>
+        </article>
+      </div>
+    </div>
+
+    <article class="app-card p-4 mt-4">
+      <h2 class="h4">How detection will work (not coded yet)</h2>
+      <ol class="mb-0">
+        <li>Camera frames are captured in the browser or on the Flask server.</li>
+        <li>MediaPipe finds face landmarks (eyes, mouth, head).</li>
+        <li>Simple rules: if eyes stay closed (low EAR), yawn (high MAR), or head drops, raise an alert.</li>
+        <li>YOLO later looks for a phone in the frame.</li>
+        <li>Events are stored in SQLite and shown on these same pages.</li>
+      </ol>
+    </article>
+    <p class="mt-4"><a href="index.html">Back to landing</a></p>
+  </main>
+  <script src="js/dummy-data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if (MargApp.isLoggedIn()) {
+      MargApp.renderSidebar("about");
+    } else {
+      document.querySelector("[data-sidebar]").innerHTML = `
+        <nav class="navbar navbar-dark public-nav">
+          <div class="container-fluid px-3">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+              <span class="brand-mark">MR</span>
+              <span class="brand-title">MargRakshak AI</span>
+            </a>
+            <a class="btn btn-amber btn-sm" href="login.html">Login</a>
+          </div>
+        </nav>`;
+      document.querySelector(".app-main").style.marginLeft = "0";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+:root {
+  --bg: #171323;
+  --bg-elevated: #1d1830;
+  --card: #28213b;
+  --accent: #a3ffcb;
+  --accent-2: #d6b4ff;
+  --ink: #f8f5ff;
+  --muted: #b8b0c9;
+  --line: #403650;
+  --safe: #a3ffcb;
+  --warn: #ffc76b;
+  --danger: #ff7185;
+  --shadow: 0 16px 40px rgba(8, 5, 16, 0.35);
+  --radius: 18px;
+  --sidebar: 260px;
+  --ease: 180ms ease;
+
+  --navy: var(--bg);
+  --navy-2: var(--card);
+  --amber: var(--warn);
+}
+
+
+/* ================================
+   BASIC RESET
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(
+      1200px 600px at 0% -10%,
+      #221b38 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      900px 500px at 100% 0%,
+      #1a162c 0%,
+      transparent 50%
+    ),
+    var(--bg);
+}
+
+
+/* ================================
+   TYPOGRAPHY
+================================ */
+
+h1,
+h2,
+h3,
+h4,
+.brand-title,
+.section-kicker {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  letter-spacing: 0.04em;
+}
+
+a {
+  color: var(--accent);
+  transition: color var(--ease);
+}
+
+a:hover {
+  color: var(--accent-2);
+}
+
+.text-secondary {
+  color: var(--muted) !important;
+}
+
+
+/* ================================
+   PUBLIC NAVIGATION
+================================ */
+
+.public-nav {
+  background: rgba(23, 19, 35, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  color: #171323;
+  font-weight: 800;
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero {
+  min-height: 88vh;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(23, 19, 35, 0.45),
+      rgba(23, 19, 35, 0.92)
+    ),
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(163, 255, 203, 0.12),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 82% 12%,
+      rgba(214, 180, 255, 0.1),
+      transparent 38%
+    ),
+    var(--bg);
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  text-transform: uppercase;
+}
+
+.badge-soft {
+  background: rgba(163, 255, 203, 0.1);
+  color: var(--accent);
+  border: 1px solid rgba(163, 255, 203, 0.28);
+}
+
+
+/* ================================
+   CARDS
+================================ */
+
+.feature-card,
+.app-card,
+.stat-card,
+.login-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition:
+    transform var(--ease),
+    border-color var(--ease),
+    box-shadow var(--ease);
+}
+
+.stat-card:hover,
+.app-card:hover {
+  transform: translateY(-2px);
+  border-color: #534566;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+
+/* ================================
+   APP BODY
+================================ */
+
+.app-body {
+  background:
+    radial-gradient(
+      900px 420px at 100% 0%,
+      rgba(214, 180, 255, 0.07),
+      transparent 45%
+    ),
+    var(--bg);
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.app-sidebar {
+  width: var(--sidebar);
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  position: fixed;
+  inset: 0 auto 0 0;
+  padding: 1.25rem 1rem;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-sidebar a {
+  color: var(--muted);
+  text-decoration: none;
+  display: block;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  transition: background var(--ease), color var(--ease);
+}
+
+.app-sidebar a:hover {
+  background: rgba(248, 245, 255, 0.04);
+  color: var(--ink);
+}
+
+.app-sidebar a.active {
+  background: rgba(163, 255, 203, 0.12);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+
+/* ================================
+   MAIN CONTENT
+================================ */
+
+.app-main {
+  margin-left: var(--sidebar);
+  padding: 1.75rem;
+  min-height: 100vh;
+}
+
+
+/* ================================
+   SAFETY STATUS
+================================ */
+
+.status-safe {
+  color: var(--safe);
+}
+
+.status-warn {
+  color: var(--warn);
+}
+
+.status-danger {
+  color: var(--danger);
+}
+
+.status-hero {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  min-height: 100%;
+  height: 100%;
+}
+
+.status-hero[data-level="safe"] {
+  box-shadow:
+    inset 4px 0 0 var(--safe),
+    var(--shadow);
+}
+
+.status-hero[data-level="warning"] {
+  box-shadow:
+    inset 4px 0 0 var(--warn),
+    var(--shadow);
+}
+
+.status-hero[data-level="danger"] {
+  box-shadow:
+    inset 4px 0 0 var(--danger),
+    var(--shadow);
+}
+
+.status-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.status-level {
+  font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  margin: 0.35rem 0 0.5rem;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+}
+
+.status-hero[data-level="safe"] .status-chip {
+  color: #171323;
+  background: var(--safe);
+  border-color: transparent;
+}
+
+.status-hero[data-level="warning"] .status-chip {
+  color: #171323;
+  background: var(--warn);
+  border-color: transparent;
+}
+
+.status-hero[data-level="danger"] .status-chip {
+  color: #171323;
+  background: var(--danger);
+  border-color: transparent;
+}
+
+.status-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.status-legend span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+
+/* ================================
+   CAMERA / VIDEO AREA
+================================ */
+
+.camera-stage {
+  aspect-ratio: 16 / 10;
+  min-height: 360px;
+  border-radius: var(--radius);
+  border: 1px dashed #534566;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(40, 33, 59, 0.35),
+      rgba(23, 19, 35, 0.55)
+    ),
+    repeating-linear-gradient(
+      45deg,
+      #1b162c,
+      #1b162c 12px,
+      #211a34 12px,
+      #211a34 24px
+    );
+
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--muted);
+}
+
+
+/* Uploaded driving video */
+
+.driving-video {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  display: block;
+  border-radius: 14px;
+  background: #0f0c18;
+}
+
+
+/* Uploaded video information */
+
+.video-info {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(23, 19, 35, 0.7);
+  flex-shrink: 0;
+}
+#video-name {
+  color: var(--accent);
+  word-break: break-word;
+}
+
+
+/* ================================
+   METRIC BARS
+================================ */
+
+.metric-bar {
+  height: 8px;
+  border-radius: 99px;
+  background: #1c1730;
+  overflow: hidden;
+}
+
+.metric-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 400ms ease;
+}
+
+.metric-bar.is-secondary > span {
+  background: var(--accent-2);
+}
+
+
+/* ================================
+   TABLE
+================================ */
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--ink);
+  --bs-table-border-color: var(--line);
+}
+
+
+/* ================================
+   FORMS
+================================ */
+
+.form-control,
+.form-select {
+  background: #1c1730;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background: #1c1730;
+  color: var(--ink);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.2rem rgba(163, 255, 203, 0.18);
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.btn-amber {
+  background: var(--accent);
+  color: #171323;
+  font-weight: 700;
+  border: 0;
+  transition: transform var(--ease), filter var(--ease);
+}
+
+.btn-amber:hover {
+  background: #b9ffd8;
+  color: #171323;
+  filter: brightness(1.02);
+}
+
+.btn-outline-light {
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.btn-outline-light:hover {
+  background: rgba(163, 255, 203, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+
+/* ================================
+   RECENT ALERTS
+================================ */
+
+.recent-alert {
+  border-bottom: 1px solid var(--line);
+}
+
+.recent-alert:last-child {
+  border-bottom: 0;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 991px) {
+
+  .app-sidebar {
+    position: relative;
+    width: 100%;
+    inset: auto;
+  }
+
+  .app-main {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .status-hero {
+    height: auto;
+  }
+
+  .camera-stage {
+  min-height: 360px;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px dashed #534566;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(40, 33, 59, 0.35),
+      rgba(23, 19, 35, 0.55)
+    ),
+    repeating-linear-gradient(
+      45deg,
+      #1b162c,
+      #1b162c 12px,
+      #211a34 12px,
+      #211a34 24px
+    );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+
+  overflow: hidden;
+}
+
+  .driving-video {
+    max-height: 360px;
+  }
+}
+
+
+@media (max-width: 767px) {
+
+  .camera-stage {
+    min-height: 300px;
+  }
+
+  .driving-video {
+    max-height: 300px;
+  }
+
+  /* =========================================
+   FIX: CAMERA CARD / UPLOADED VIDEO OVERLAP
+   ========================================= */
+
+.app-card {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+/* Camera section must grow with its contents */
+.camera-stage {
+  height: auto !important;
+  min-height: 360px;
+  aspect-ratio: auto !important;
+  overflow: visible !important;
+}
+
+
+
+
+/* Space before the metric cards */
+.row.g-4 {
+  row-gap: 24px !important;
+}
+
+/* Prevent metric cards from moving upward */
+.metric-bar {
+  position: relative;
+}
+
+}
