@@ -42,7 +42,7 @@
 
       <div>
         <div class="section-kicker text-secondary">
-          LIVE SESSION (DUMMY)
+          LIVE FRAME MONITOR / RECORDED VIDEO ANALYSIS
         </div>
 
         <h1 class="mb-0">
@@ -52,11 +52,11 @@
 
       <div class="app-card px-3 py-2">
         <div class="text-secondary small">
-          Session
+          Session duration
         </div>
 
         <strong id="session-mins">
-          0 min
+          --
         </strong>
       </div>
 
@@ -92,7 +92,7 @@
               </div>
 
               <div class="small text-secondary">
-                Upload a driving video to begin
+                Upload a driving video, then select Analyze Video
               </div>
 
             </div>
@@ -126,6 +126,41 @@
                 Start Camera
               </button>
 
+              <button
+                type="button"
+                id="analyze-video"
+                class="btn btn-outline-light"
+                disabled
+              >
+                Analyze Video
+              </button>
+
+              <button
+                type="button"
+                id="toggle-video-playback"
+                class="btn btn-outline-light"
+                disabled
+              >
+                Play Video
+              </button>
+
+              <button
+                type="button"
+                id="forward-video"
+                class="btn btn-outline-light"
+                disabled
+              >
+                Forward 10s
+              </button>
+
+              <button
+                type="button"
+                id="stop-video-analysis"
+                class="btn btn-outline-danger"
+                disabled
+              >
+                Stop Analysis
+              </button>
 
               <!-- Upload -->
               <label
@@ -138,7 +173,7 @@
               <input
                 type="file"
                 id="video-upload"
-                accept="video/mp4,video/webm,video/quicktime"
+                accept="video/mp4,video/x-msvideo,video/webm,video/quicktime"
                 class="d-none"
               >
 
@@ -177,6 +212,10 @@
 
           </div>
 
+          <div id="analysis-message" class="small text-secondary mt-3" role="status" aria-live="polite">
+            Start camera monitoring or upload a video to create session analytics.
+          </div>
+
         </div>
 
       </div>
@@ -191,7 +230,7 @@
         <div
           id="status-hero"
           class="status-hero p-4"
-          data-level="safe"
+          data-level="warning"
         >
 
           <div class="status-kicker">
@@ -204,16 +243,16 @@
             id="status-chip"
             class="status-chip mt-2"
           >
-            SAFE
+            NO SESSION
           </div>
 
 
           <!-- Main status -->
           <div
             id="status-level"
-            class="status-level status-safe"
+            class="status-level text-secondary"
           >
-            SAFE
+            NO SESSION
           </div>
 
 
@@ -222,7 +261,17 @@
             id="live-status"
             class="mb-3"
           >
-            Driver alert
+            Start camera monitoring or upload a video to monitor the driver.
+          </div>
+
+          <button type="button" id="acknowledge-alert" class="btn btn-outline-light btn-sm mb-3">
+            Acknowledge Alert
+          </button>
+
+          <div class="mb-3">
+            Safety score:
+            <strong><span id="safety-score">--</span>/100</strong>
+            <span class="ms-2 small text-secondary">Total alerts: <span id="total-alerts">--</span></span>
           </div>
 
 
@@ -230,7 +279,7 @@
           <div class="status-legend mb-4">
 
             <span>
-              SAFE — Driver alert
+              SAFE — No sustained fatigue or distraction indicators
             </span>
 
             <span>
@@ -308,7 +357,7 @@
             id="ear-value"
             class="stat-value"
           >
-            0.00
+            --
           </div>
 
           <div class="metric-bar mt-3">
@@ -319,8 +368,7 @@
           </div>
 
           <div class="small text-secondary mt-2">
-            Lower value ≈ eyes closing.
-            Dummy numbers.
+            Landmark EAR, or an eye-detection proxy when landmarks are unavailable.
           </div>
 
         </div>
@@ -341,7 +389,7 @@
             id="mar-value"
             class="stat-value"
           >
-            0.00
+            --
           </div>
 
           <div class="metric-bar is-secondary mt-3">
@@ -352,8 +400,7 @@
           </div>
 
           <div class="small text-secondary mt-2">
-            Higher value ≈ yawn.
-            Dummy numbers.
+            Landmark-based estimate when facial landmarks are available.
           </div>
 
         </div>
@@ -374,7 +421,7 @@
             id="pitch-value"
             class="stat-value"
           >
-            0°
+            --
           </div>
 
           <div class="metric-bar mt-3">
@@ -385,10 +432,41 @@
           </div>
 
           <div class="small text-secondary mt-2">
-            Larger tilt ≈ nodding off.
-            Dummy numbers.
+            Head-pose estimate when facial landmarks are available.
           </div>
 
+        </div>
+
+      </div>
+
+        <div class="row g-4 mt-1">
+          <div class="col-12 col-md-4">
+            <div class="app-card p-4 h-100">
+              <div class="text-secondary mb-2">PERCLOS</div>
+              <div id="perclos-value" class="stat-value">--%</div>
+              <div class="small text-secondary mt-2">Recent closed-eye estimate; shown as unavailable when eyes cannot be measured.</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="app-card p-4 h-100">
+              <div class="text-secondary mb-2">Head yaw</div>
+              <div id="yaw-value" class="stat-value">--°</div>
+              <div class="small text-secondary mt-2">Head direction estimate when facial landmarks are available.</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="app-card p-4 h-100">
+              <div class="text-secondary mb-2">Event counts</div>
+              <div class="small">Drowsiness: <strong id="drowsiness-count">--</strong></div>
+              <div class="small">Yawns: <strong id="yawn-count">--</strong></div>
+              <div class="small">Distractions: <strong id="distraction-count">--</strong></div>
+              <div class="small text-secondary mt-2">
+                Eye closure: <span id="eye-closure-duration">--</span>s ·
+                Yawn: <span id="yawn-duration">--</span>s ·
+                Head deviation: <span id="head-deviation-duration">--</span>s
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -413,7 +491,7 @@
             </h3>
 
             <span class="text-secondary small">
-              Demo data
+              From the latest analyzed session
             </span>
 
           </div>

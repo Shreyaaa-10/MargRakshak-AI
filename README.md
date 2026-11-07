@@ -1,75 +1,60 @@
-# MargRakshak AI 🚗
+# MargRakshak AI
 
-MargRakshak AI is a college mini-project focused on driver fatigue and distraction detection. The idea is to develop a web application that can help monitor a driver's alertness and identify signs of drowsiness or distraction.
+MargRakshak AI is a college project prototype for monitoring driver fatigue and distraction using a webcam or recorded video. It uses a Flask backend with OpenCV and MediaPipe facial landmarks.
 
-I'm currently working on the frontend. The backend, webcam monitoring, and AI detection features will be added in the upcoming stages.
+## Features
 
-## Tech Stack
+- Live webcam monitoring with visual, beep, and voice alert preferences.
+- Recorded-video playback controls with frame-by-frame monitoring.
+- Session risk summaries, metrics, and alert timelines.
+- Local alert history and analytics for completed monitoring sessions.
 
-| Part | Technology |
-|---|---|
-| Frontend | HTML, CSS, Bootstrap 5, JavaScript |
-| Charts | Chart.js |
-| Backend (planned) | Python, Flask |
-| Computer Vision (planned) | OpenCV, MediaPipe |
-| Database (planned) | SQLite |
-| Object Detection (later) | YOLO |
+## Tech stack
 
-## Current Features
+| Layer | Tools |
+| --- | --- |
+| Frontend | HTML5, CSS3, Bootstrap 5, vanilla JavaScript, Chart.js |
+| Backend | Python, Flask |
+| Computer vision | OpenCV; MediaPipe Face Mesh for landmark-based metrics |
+| Database (later) | SQLite |
 
-- Landing page
-- Login page
-- Driver monitoring dashboard
-- Alerts page
-- Analytics page
-- Settings page
-- About page
+## Run the project on Windows
 
-The pages currently use dummy data. Actual driver monitoring and AI-based detection are not implemented yet.
+Run Flask from the project root so the frontend and API are served from the same address.
 
-## How to Run
+1. Install Python 3.12. The legacy MediaPipe Face Mesh API used by this project is not available in Python 3.13+.
+2. In PowerShell, open the project folder and create the environment and install dependencies:
 
-You can run the frontend in your browser.
-
-1. Download or clone this repository.
-2. Open the project folder in VS Code or another code editor.
-3. Open a terminal in the project folder.
-4. Run the following command:
-
-   ```bash
-   python -m http.server 5500
-   ```
-
-5. Open `http://localhost:5500/frontend/` in your browser.
-
-You can also open `frontend/index.html` directly in your browser.
-
-## Project Structure
-
-```text
-MargRakshak-AI/
-├── README.md
-└── frontend/
-    ├── index.html
-    ├── login.html
-    ├── dashboard.html
-    ├── alerts.html
-    ├── analytics.html
-    ├── settings.html
-    └── about.html
+```powershell
+py -3.12 -m venv .venv312
+.\.venv312\Scripts\python.exe -m pip install -r backend\requirements.txt
 ```
 
-## What's Next?
+3. Start the server:
 
-I'm planning to work on these features next:
+```powershell
+.\.venv312\Scripts\python.exe backend\app.py
+```
 
-- Connect the frontend to a Python Flask backend.
-- Store application data using SQLite.
-- Add webcam monitoring.
-- Use MediaPipe and OpenCV for facial landmark detection.
-- Explore EAR, MAR, and head-pose analysis for detecting signs of fatigue and distraction.
-- Add YOLO-based object detection in a later stage.
+4. Open `http://127.0.0.1:5000` in a browser and log in.
+5. Allow camera access for live monitoring, or upload an MP4, AVI, WebM, or MOV file. Recorded-video monitoring includes play/pause, **Forward 10s**, and **Stop Analysis** controls.
+6. Stop the webcam session to save its sampled metrics. A recorded-video report is saved when playback completes; stopping early does not save a partial report.
 
-## Note
+Stop Flask with `Ctrl+C`. Uploaded videos and session history stay local in `backend/uploads/` and `backend/history.json`; these files are excluded from Git.
 
-This project is still under development. The current version focuses on the frontend, and the monitoring data is only for demonstration. It is not yet a working driver-safety system.
+## Pages
+
+- Landing: `frontend/index.html`
+- Login: `frontend/login.html`
+- Live dashboard: `frontend/dashboard.html`
+- Alert history: `frontend/alerts.html`
+- Analytics: `frontend/analytics.html`
+- Settings: `frontend/settings.html`
+- About: `frontend/about.html`
+
+## Limitations
+
+- This is an academic prototype, not a certified or safety-grade driver-monitoring device. Do not rely on it as the sole basis for driving decisions.
+- Lighting, camera angle, occlusion, and face visibility affect detection. OpenCV-only environments cannot reliably estimate all facial metrics; unavailable values should be treated as unknown, not safe.
+- Session history is stored locally in JSON. SQLite is not wired in.
+- Phone-use detection is not implemented.

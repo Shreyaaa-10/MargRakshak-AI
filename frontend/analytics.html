@@ -11,32 +11,160 @@
 </head>
 <body class="app-body">
   <div data-sidebar></div>
-  <main class="app-main">
-    <h1 class="h2 mb-1">Analytics</h1>
-    <p class="text-secondary mb-4">Chart.js with dummy numbers. Real scores will come from detection later.</p>
-    <div class="row g-4">
-      <div class="col-lg-8">
-        <div class="app-card p-4">
-          <h2 class="h5">Hourly drowsiness score</h2>
-          <canvas id="drowsy-chart"></canvas>
-        </div>
+  <main class="app-main analytics-page">
+    <header class="analytics-header">
+      <div>
+        <p class="section-kicker mb-1">SESSION REPORT</p>
+        <h1 class="h2 mb-1">Analytics</h1>
+        <p class="text-secondary mb-0">A clear summary of your latest completed monitoring session.</p>
       </div>
-      <div class="col-lg-4">
-        <div class="app-card p-4">
-          <h2 class="h5">Alert mix</h2>
-          <canvas id="type-chart"></canvas>
+      <a class="btn btn-outline-light" href="dashboard.html">Back to dashboard</a>
+    </header>
+
+    <div id="analytics-message" class="analytics-notice" role="status" aria-live="polite">
+      Loading the latest session…
+    </div>
+
+    <div id="analytics-content" class="d-none">
+      <section class="analytics-overview app-card" aria-labelledby="session-overview-title">
+        <div class="analytics-risk-panel" id="analytics-risk-panel" data-level="no-data">
+          <p class="status-kicker mb-2">SESSION RISK</p>
+          <span id="analytics-risk-badge" class="analytics-risk-badge" aria-live="polite">--</span>
+          <p id="analytics-risk-description" class="mb-0 mt-3">Loading session status…</p>
         </div>
-      </div>
-      <div class="col-12">
-        <div class="app-card p-4">
-          <h2 class="h5">Weekly incidents</h2>
-          <canvas id="week-chart"></canvas>
+        <div class="analytics-score-panel">
+          <p class="status-kicker mb-1">SESSION SCORE</p>
+          <div id="analytics-score" class="analytics-score">--</div>
+          <p class="small text-secondary mb-0">Prototype estimate, not a medical or safety certification.</p>
         </div>
-      </div>
+        <div class="analytics-session-panel">
+          <h2 id="session-overview-title" class="h5 mb-3">Session details</h2>
+          <dl class="analytics-session-details mb-0">
+            <div><dt>Source</dt><dd id="analytics-source">--</dd></div>
+            <div><dt>Duration</dt><dd id="analytics-duration">--</dd></div>
+            <div><dt>Video / session</dt><dd id="analytics-filename">--</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="row g-3 mt-1" aria-label="Session highlights">
+        <div class="col-12 col-sm-4">
+          <article class="analytics-stat app-card">
+            <span class="analytics-stat-icon" aria-hidden="true">!</span>
+            <div>
+              <p class="text-secondary mb-1">Alerts recorded</p>
+              <strong id="analytics-alerts" class="analytics-stat-value">0</strong>
+            </div>
+          </article>
+        </div>
+        <div class="col-12 col-sm-4">
+          <article class="analytics-stat app-card">
+            <span class="analytics-stat-icon analytics-stat-icon-teal" aria-hidden="true">✓</span>
+            <div>
+              <p class="text-secondary mb-1">Samples with face metrics</p>
+              <strong id="analytics-coverage" class="analytics-stat-value">--</strong>
+              <span class="small text-secondary d-block">of sampled points</span>
+            </div>
+          </article>
+        </div>
+        <div class="col-12 col-sm-4">
+          <article class="analytics-stat app-card">
+            <span class="analytics-stat-icon analytics-stat-icon-blue" aria-hidden="true">↗</span>
+            <div>
+              <p class="text-secondary mb-1">Alert types</p>
+              <strong id="analytics-alert-types" class="analytics-stat-value">0</strong>
+              <span class="small text-secondary d-block">different categories</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="row g-3 mt-1" aria-label="Session charts">
+        <div class="col-12 col-xl-8">
+          <article class="app-card analytics-chart-card">
+            <h2 class="h5 mb-1">Score over the session</h2>
+            <p class="small text-secondary">A trend based on the analysis system’s event rules.</p>
+            <div class="analytics-chart-wrap">
+              <canvas id="drowsy-chart" role="img" aria-label="Session score trend"></canvas>
+              <p id="score-chart-empty" class="analytics-chart-empty d-none">No score data is available for this session.</p>
+            </div>
+          </article>
+        </div>
+        <div class="col-12 col-xl-4">
+          <article class="app-card analytics-chart-card">
+            <h2 class="h5 mb-1">Alerts by type</h2>
+            <p class="small text-secondary">Counts of alerts detected in this session.</p>
+            <div class="analytics-chart-wrap analytics-doughnut-wrap">
+              <canvas id="type-chart" role="img" aria-label="Alerts by type"></canvas>
+              <p id="type-chart-empty" class="analytics-chart-empty d-none">No alerts were recorded.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="app-card analytics-timeline-card mt-3" aria-labelledby="timeline-title">
+        <div class="analytics-section-heading">
+          <div>
+            <h2 id="timeline-title" class="h5 mb-1">What happened</h2>
+            <p class="small text-secondary mb-0">Alerts in time order for this session.</p>
+          </div>
+          <a href="alerts.html" class="small">View alert history</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr><th scope="col">Time</th><th scope="col">Alert</th><th scope="col">Details</th><th scope="col">Duration</th><th scope="col">Severity</th></tr>
+            </thead>
+            <tbody id="event-timeline"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <details class="analytics-technical app-card mt-3">
+        <summary>
+          <span>
+            <strong>Technical metrics</strong>
+            <span class="small text-secondary d-block">EAR, PERCLOS, mouth movement, and head direction</span>
+          </span>
+          <span class="analytics-details-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="row g-3 mt-1">
+          <div class="col-12 col-lg-4">
+            <article class="analytics-technical-card">
+              <h3 class="h6">Eye closure (EAR / PERCLOS)</h3>
+              <div class="analytics-chart-wrap">
+                <canvas id="ear-chart" role="img" aria-label="Eye closure and PERCLOS metrics"></canvas>
+                <p id="ear-chart-empty" class="analytics-chart-empty d-none">Eye measurements are unavailable.</p>
+              </div>
+            </article>
+          </div>
+          <div class="col-12 col-lg-4">
+            <article class="analytics-technical-card">
+              <h3 class="h6">Mouth movement (MAR)</h3>
+              <div class="analytics-chart-wrap">
+                <canvas id="mar-chart" role="img" aria-label="Mouth aspect ratio"></canvas>
+                <p id="mar-chart-empty" class="analytics-chart-empty d-none">Mouth measurements are unavailable.</p>
+              </div>
+            </article>
+          </div>
+          <div class="col-12 col-lg-4">
+            <article class="analytics-technical-card">
+              <h3 class="h6">Head direction</h3>
+              <div class="analytics-chart-wrap">
+                <canvas id="head-chart" role="img" aria-label="Head pitch and yaw measurements"></canvas>
+                <p id="head-chart-empty" class="analytics-chart-empty d-none">Head-direction measurements are unavailable.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </details>
+
+      <p class="analytics-disclaimer mt-3 mb-0">
+        This project is a prototype. Camera angle, lighting, occlusion, and model limitations can affect measurements. Do not rely on it as the sole basis for driving-safety decisions.
+      </p>
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-  <script src="js/dummy-data.js"></script>
   <script src="js/app.js"></script>
   <script src="js/analytics.js"></script>
 </body>
