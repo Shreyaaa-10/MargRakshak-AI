@@ -1,3 +1,4 @@
+
 import base64
 import hashlib
 import io
@@ -7,6 +8,9 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
+
+
+
 import cv2
 import numpy as np
 from flask import Flask, jsonify, request, send_from_directory
@@ -14,6 +18,8 @@ from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
 
 from analysis import analyze_video, _build_result, _face_metrics, _format_time
+
+
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -27,6 +33,9 @@ MAX_SESSION_SECONDS = 2 * 60 * 60
 app = Flask(__name__, static_folder=str(FRONTEND_FOLDER), static_url_path="")
 app.config["MAX_CONTENT_LENGTH"] = MAX_VIDEO_SIZE
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
+
+
+
 
 
 def read_history():
